@@ -80,7 +80,7 @@ function Coins() {
         <CoinList>
           {data?.slice(0, 100).map((coin) => (
             <Coin key={coin.id}>
-              <Link to={`${coin.id}`} state={{ name: coin.name }}>
+              <Link to={`/${coin.id}`} state={{ name: coin.name }}>
                 <Img
                   src={`https://static.coinpaprika.com/coin/${coin.id}/logo.png`}
                   alt={coin.name}
