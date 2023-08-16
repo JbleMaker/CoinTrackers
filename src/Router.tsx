@@ -6,7 +6,7 @@ import Price from "./routes/Price";
 
 function Router() {
   return (
-    <HashRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <Routes>
         <Route path={process.env.PUBLIC_URL + "/"} element={<Coins />} />
         <Route path={process.env.PUBLIC_URL + "/:coinId"} element={<Coin />}>
