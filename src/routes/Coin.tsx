@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import {
   Outlet,
   useLocation,
@@ -9,6 +8,7 @@ import {
 } from "react-router-dom";
 import { styled } from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "./api";
+import { Helmet } from "react-helmet-async";
 
 const Title = styled.h1`
   color: ${(props) => props.theme.textColor};
@@ -113,23 +113,25 @@ interface PriceData {
   first_data_at: string;
   last_updated: string;
   quotes: {
-    ath_date: string;
-    ath_price: number;
-    market_cap: number;
-    market_cap_change_24h: number;
-    percent_change_1h: number;
-    percent_change_1y: number;
-    percent_change_6h: number;
-    percent_change_7d: number;
-    percent_change_12h: number;
-    percent_change_15m: number;
-    percent_change_24h: number;
-    percent_change_30d: number;
-    percent_change_30m: number;
-    percent_from_price_ath: number;
-    price: number;
-    volume_24h: number;
-    volume_24h_change_24h: number;
+    USD: {
+      ath_date: string;
+      ath_price: number;
+      market_cap: number;
+      market_cap_change_24h: number;
+      percent_change_1h: number;
+      percent_change_1y: number;
+      percent_change_6h: number;
+      percent_change_7d: number;
+      percent_change_12h: number;
+      percent_change_15m: number;
+      percent_change_24h: number;
+      percent_change_30d: number;
+      percent_change_30m: number;
+      percent_from_price_ath: number;
+      price: number;
+      volume_24h: number;
+      volume_24h_change_24h: number;
+    };
   };
 }
 
@@ -153,37 +155,15 @@ function Coin() {
     () => fetchCoinTickers(coinId)
   );
 
-  // const [loading, setLoading] = useState(true);
-  // const [info, setInfo] = useState<InfoData>();
-  // const [price, setPrice] = useState<PriceData>();
-  // const [krw, setKrw] = useState<KrwData>();
-  // useEffect(() => {
-  //   (async () => {
-  //     //캡슐화
-  //     const infoData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ).json();
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ).json();
-
-  //     const exchange = await //달러환율
-  //     (
-  //       await fetch(
-  //         `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/krw.min.json`
-  //       )
-  //     ).json();
-  //     setInfo(infoData);
-  //     setPrice(priceData);
-  //     setKrw(exchange);
-  //     setLoading(false);
-  //   })();
-  // }, [coinId]);
-
   const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -203,8 +183,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price:</span>
+              <span>${tickersData?.quotes.USD.price.toFixed(2)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -220,13 +200,15 @@ function Coin() {
           </Overview>
           <Tabs>
             <Tab $isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>Chart</Link>
+              <Link to={`/${coinId}/chart`} state={coinId}>
+                Chart
+              </Link>
             </Tab>
             <Tab $isActive={priceMatch !== null}>
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Outlet />
+          <Outlet context={{ coinId }} />
         </>
       )}
     </Container>

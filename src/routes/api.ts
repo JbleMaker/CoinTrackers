@@ -21,3 +21,9 @@ export const exchange = () => {
     `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/krw.min.json`
   ).then((response) => response.json());
 };
+
+export const fetchCoinHistory = (coinId: string) => {
+  return fetch(
+    `https://ohlcv-api.nomadcoders.workers.dev/?coinId=${coinId}`
+  ).then((response) => response.json());
+};
