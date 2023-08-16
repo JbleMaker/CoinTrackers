@@ -200,12 +200,16 @@ function Coin() {
           </Overview>
           <Tabs>
             <Tab $isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`} state={coinId}>
+              <Link
+                to={`${process.env.PUBLIC_URL}/${coinId}/chart`}
+                state={coinId}>
                 Chart
               </Link>
             </Tab>
             <Tab $isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>Price</Link>
+              <Link to={`${process.env.PUBLIC_URL}/${coinId}/price`}>
+                Price
+              </Link>
             </Tab>
           </Tabs>
           <Outlet context={{ coinId }} />
