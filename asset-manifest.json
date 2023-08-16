@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/CoinTrackers/static/css/main.5a89d673.css",
-    "main.js": "/CoinTrackers/static/js/main.85a3af08.js",
-    "index.html": "/CoinTrackers/index.html",
-    "main.85a3af08.js.map": "/CoinTrackers/static/js/main.85a3af08.js.map"
+    "main.css": "https://jblemaker.github.io/CoinTrackers/static/css/main.5a89d673.css",
+    "main.js": "https://jblemaker.github.io/CoinTrackers/static/js/main.d5e8c58a.js",
+    "index.html": "https://jblemaker.github.io/CoinTrackers/index.html",
+    "main.d5e8c58a.js.map": "https://jblemaker.github.io/CoinTrackers/static/js/main.d5e8c58a.js.map"
   },
   "entrypoints": [
     "static/css/main.5a89d673.css",
-    "static/js/main.85a3af08.js"
+    "static/js/main.d5e8c58a.js"
   ]
 }
