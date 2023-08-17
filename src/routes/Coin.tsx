@@ -79,6 +79,15 @@ const Tab = styled.span<{ $isActive: boolean }>`
   }
 `;
 
+const BackStep = styled.div`
+  background-color: ${(props) => props.theme.bgColor};
+  text-decoration: none;
+  color: ${(props) => props.theme.textColor};
+  position: absolute;
+  left: 20px;
+  top: 20px;
+`;
+
 interface InfoData {
   id: string;
   name: string;
@@ -165,6 +174,9 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
+        <Link to={"/"}>
+          <BackStep>뒤로가기</BackStep>
+        </Link>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>

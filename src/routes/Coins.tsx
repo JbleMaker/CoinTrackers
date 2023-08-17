@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { fetchCoins } from "./api";
 import { Helmet } from "react-helmet-async";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atom";
 
 const Title = styled.h1`
   color: ${(props) => props.theme.textColor};
@@ -52,6 +54,16 @@ const Img = styled.img`
   height: 50px;
   margin-right: 15px;
 `;
+const ChangeBtn = styled.button`
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+`;
 
 interface ICoin {
   id: string;
@@ -65,6 +77,10 @@ interface ICoin {
 
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
+  const isDark = useRecoilValue(isDarkAtom);
+  const setMode = useSetRecoilState(isDarkAtom);
+
+  const toggleDarkAtom = () => setMode((prev) => !prev);
 
   return (
     <Container>
@@ -73,6 +89,9 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>Coin</Title>
+        <ChangeBtn onClick={toggleDarkAtom}>
+          {isDark ? "light" : "Dark"}
+        </ChangeBtn>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
