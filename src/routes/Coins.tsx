@@ -54,15 +54,15 @@ const Img = styled.img`
   height: 50px;
   margin-right: 15px;
 `;
-const ChangeBtn = styled.button`
+export const ChangeBtn = styled.button`
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   border-radius: 50%;
   width: 50px;
   height: 50px;
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  top: 20px;
+  left: 20px;
 `;
 
 interface ICoin {
@@ -79,7 +79,6 @@ function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
   const isDark = useRecoilValue(isDarkAtom);
   const setMode = useSetRecoilState(isDarkAtom);
-
   const toggleDarkAtom = () => setMode((prev) => !prev);
 
   return (

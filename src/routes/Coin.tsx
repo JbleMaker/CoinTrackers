@@ -88,7 +88,7 @@ const BackStep = styled.div`
   top: 20px;
 `;
 
-interface InfoData {
+export interface InfoData {
   id: string;
   name: string;
   symbol: string;
@@ -110,7 +110,7 @@ interface InfoData {
   last_data_at: string;
 }
 
-interface PriceData {
+export interface PriceData {
   id: string;
   name: string;
   symbol: string;
@@ -144,11 +144,6 @@ interface PriceData {
   };
 }
 
-interface KrwData {
-  data: string;
-  krw: number;
-}
-
 function Coin() {
   const { coinId } = useParams();
   const { state } = useLocation();
@@ -168,15 +163,15 @@ function Coin() {
 
   return (
     <Container>
+      <Link to={"/"}>
+        <BackStep>뒤로가기</BackStep>
+      </Link>
       <Helmet>
         <title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </title>
       </Helmet>
       <Header>
-        <Link to={"/"}>
-          <BackStep>뒤로가기</BackStep>
-        </Link>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>

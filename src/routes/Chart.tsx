@@ -5,7 +5,7 @@ import ApexCharts from "react-apexcharts";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atom";
 
-interface IHistorical {
+export interface IHistorical {
   time_open: number;
   time_close: number;
   open: string;
@@ -15,7 +15,7 @@ interface IHistorical {
   volume: string;
   market_cap: number;
 }
-interface ICoinId {
+export interface ICoinId {
   coinId: string;
 }
 
@@ -24,42 +24,33 @@ const Chart = () => {
   const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
     fetchCoinHistory(coinId)
   );
-  const isDark = useRecoilValue(isDarkAtom);
   return (
     <div>
       {isLoading ? (
         "Loading Chart..."
       ) : (
         <ApexCharts
-          type="area"
+          type="candlestick"
           series={[
             {
-              name: "close",
-              data: data?.map((price) => Math.floor(Number(price.close))) ?? [],
-            },
-            {
-              name: "open",
-              data: data?.map((price) => Math.floor(Number(price.open))) ?? [],
+              data:
+                data?.map((price) => [
+                  new Date(price.time_open).getTime(), // 날짜
+                  parseFloat(price.open), // 시작가
+                  parseFloat(price.high), // 최고가
+                  parseFloat(price.low), // 최저가
+                  parseFloat(price.close), // 종가
+                ]) ?? [],
             },
           ]}
           options={{
-            theme: {
-              mode: isDark ? "dark" : "light",
-            },
-            stroke: {
-              curve: "smooth",
-              width: 4,
-            },
-            chart: {
-              toolbar: { show: false },
-              height: 800,
-              width: 500,
-            },
-            grid: { show: false },
-            xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              labels: { show: false },
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#DF7D46", // 상승 시 색상
+                  downward: "#3C90EB", // 하락 시 색상
+                },
+              },
             },
           }}
         />
